@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Día Del Hermano</title>
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body, html {
+      height: 100%;
+      width: 100%;
+      overflow: hidden;
+	  font-family: "Fredoka", sans-serif;
+  	  font-optical-sizing: auto;
+	  font-weight: 700;
+	  font-style: normal;
+ 	  font-variation-settings:
+    "wdth" 100;
+    }
+
+    /* Video de fondo */
+    #video-fondo {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: -1;
+    }
+
+    /* Contenedor del mensaje */
+    #contenedor {
+      position: absolute;
+      top: 65%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      color: #E6736A;
+      font-size: 7em;
+      text-align: center;
+      padding: 20px;
+    }
+  </style>
+</head>
+<body>
+  <!-- Video de fondo -->
+  <video id="video-fondo" autoplay muted loop>
+    <source src="fondo.mp4" type="video/mp4">
+    Tu navegador no soporta videos en HTML5.
+  </video>
+
+  <!-- Texto del mensaje -->
+  <div id="contenedor">Edn</div>
+
+  <script>
+    const url = "https://script.google.com/macros/s/AKfycbzgCavLj4zqBsoPHJB3QuY2Lwd-g7L2AnxzUy7huDKOGpMLkO-bKt9nfNdy3dt9tkNNUQ/exec"; // tu URL de Apps Script
+
+    let mensajes = [];
+    let indice = 0;
+
+    fetch(url)
+      .then(r => r.json())
+      .then(data => {
+        mensajes = data;
+        if (mensajes.length > 0) {
+          mostrarSiguiente();
+          setInterval(mostrarSiguiente, 5000); // cambia cada 5 segundos
+        } else {
+          document.getElementById("contenedor").textContent = "No hay mensajes aprobados aún.";
+        }
+      })
+      .catch(err => {
+        console.error(err);
+        document.getElementById("contenedor").textContent = "Error cargando mensajes.";
+      });
+
+    function mostrarSiguiente() {
+      document.getElementById("contenedor").textContent = mensajes[indice].para;
+      indice = (indice + 1) % mensajes.length; // vuelve al inicio cuando termine la lista
+    }
+  </script>
+</body>
+</html>
