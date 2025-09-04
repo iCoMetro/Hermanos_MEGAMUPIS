@@ -63,15 +63,14 @@
     const url = "https://script.google.com/macros/s/AKfycbzgCavLj4zqBsoPHJB3QuY2Lwd-g7L2AnxzUy7huDKOGpMLkO-bKt9nfNdy3dt9tkNNUQ/exec"; // tu URL de Apps Script
 
     let mensajes = [];
-    let indice = 0;
 
     fetch(url)
       .then(r => r.json())
       .then(data => {
         mensajes = data;
         if (mensajes.length > 0) {
-          mostrarSiguiente();
-          setInterval(mostrarSiguiente, 5000); // cambia cada 5 segundos
+          mostrarAleatorio();
+          setInterval(mostrarAleatorio, 5000); // cambia cada 5 segundos
         } else {
           document.getElementById("contenedor").textContent = "No hay mensajes aprobados aún.";
         }
@@ -81,10 +80,11 @@
         document.getElementById("contenedor").textContent = "Error cargando mensajes.";
       });
 
-    function mostrarSiguiente() {
-      document.getElementById("contenedor").textContent = mensajes[indice].para;
-      indice = (indice + 1) % mensajes.length; // vuelve al inicio cuando termine la lista
+    function mostrarAleatorio() {
+      let random = mensajes[Math.floor(Math.random() * mensajes.length)];
+      document.getElementById("contenedor").textContent = random.para;
     }
   </script>
 </body>
 </html>
+
